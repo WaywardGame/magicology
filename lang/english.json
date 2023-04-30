@@ -1,0 +1,92 @@
+{
+	"extends": "English",
+	"dictionaries": {
+		"message": {
+			"modMagicologyNoRoomForMaterialization": "There is no room to materialize {0} here!",
+			"modMagicologyNotEnoughMana": "You need {0} mana to do that!",
+			"modMagicologyYouConjured": "You conjured {0}.",
+			"modMagicologyYouHaveMaterialized": "You have materialized {0}!",
+			"modMagicologyYouHaveDematerialized": "You have dematerialized {0}!",
+			"modMagicologyYouRanOutOfManaMaterializations": "You ran out of mana for your materializations!",
+			"modMagicologyYouShootMagicalAttack": "You shoot {0} at a range of {2?{#--COLOR-MAGICAL:{1}}:{1}}."
+		},
+		"item": {
+			"modMagicologyElementalWoodenStaff": [
+				"elemental wooden staff",
+				"A magical wooden staff that allows the use of various magics."
+			],
+			"modMagicologyManaPotion": [
+				"mana potion",
+				"A potion that recovers mana."
+			],
+			"modMagicologyElementalBakingTray": [
+				"elemental baking tray",
+				"A magical baking tray that can be conjure food."
+			],
+			"modMagicologyElementalGlassBottle": [
+				"elemental glass bottle",
+				"A magical bottle that can be filled with purified fresh water when provided with mana."
+			],
+			"modMagicologyElementalGlassBottleOfPurifiedFreshWater": [
+				"elemental glass bottle of purified fresh water",
+				"A magical bottle that is filled with purified fresh water."
+			],
+			"modMagicologyElementalGolemFigure": [
+				"elemental golem figure",
+				"A magical golem figure staff that allows materializing a golem."
+			],
+			"modMagicologyFireball": [
+				"fireball",
+				""
+			],
+			"modMagicologyFrostbolt": [
+				"frostbolt",
+				""
+			]
+		},
+		"action": {
+			"modMagicologyConjureFood": [
+				"Conjure Food",
+				"Channels mana into the baking tray, causing a delicious meal to materialize."
+			],
+			"modMagicologyConjureWater": [
+				"Conjure Water",
+				"Channels mana to pull moisture from the surrounding environment into the container."
+			],
+			"modMagicologyMaterialize": [
+				"Materialize",
+				"Channels mana to materialize the golem.\nIt will drain your mana over time and disappear once your mana is depleted."
+			],
+			"modMagicologyDematerialize": [
+				"Dematerialize",
+				"Dematerializes summoned elemental golems."
+			],
+			"modMagicologyFireball": [
+				"Fireball",
+				"Shoots a fireball in the direction you're facing."
+			],
+			"modMagicologyFrostbolt": [
+				"Frostbolt",
+				"Shoots a frostbolt in the direction you're facing."
+			]
+		},
+		"skill": {
+			"modMagicologyMagicology": [
+				"magicology",
+				"- Increases damage of magical attacks.\n- Increases the range of magical attacks."
+			]
+		},
+		"creature": {
+			"ModMagicologyElementalGolem": [
+				"elemental golem",
+				"A magical golem that was materilized with mana. It will always be subservient to its owner."
+			]
+		},
+		"stat": {
+			"ModMagicologyMana": "mana"
+		},
+		"modMagicologyMagicology": {
+			"gameStatsStatManaTooltip": "Mana"
+		}
+	}
+}
