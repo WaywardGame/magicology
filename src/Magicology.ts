@@ -1,30 +1,30 @@
 import { EventHandler } from "event/EventManager";
-import { ActionType } from "game/entity/action/IAction";
+import { DoodadTypeGroup } from "game/doodad/IDoodad";
 import { AiType, DamageType, Defense, MoveType } from "game/entity/IEntity";
 import { EquipType, SkillType } from "game/entity/IHuman";
 import { Stat, StatDisplayType } from "game/entity/IStats";
+import { StatChangeCurrentTimerStrategy } from "game/entity/StatFactory";
+import { ActionType } from "game/entity/action/IAction";
+import Creature from "game/entity/creature/Creature";
+import { CreatureType, TileGroup } from "game/entity/creature/ICreature";
+import Player from "game/entity/player/Player";
 import { EquipEffect, ItemType, ItemTypeGroup, RecipeLevel } from "game/item/IItem";
 import { RecipeComponent } from "game/item/ItemDescriptions";
-import Mod from "mod/Mod";
-import Register, { Registry } from "mod/ModRegistry";
-import { when, toggleClasses, shake } from "ui/screen/screens/game/static/stats/StatDisplayDescriptions";
+import { TileEventType } from "game/tile/ITileEvent";
 import Dictionary from "language/Dictionary";
 import Translation from "language/Translation";
-import Player from "game/entity/player/Player";
-import { StatChangeCurrentTimerStrategy } from "game/entity/StatFactory";
 import Message from "language/dictionary/Message";
-import particles from "renderer/particle/Particles";
+import Mod from "mod/Mod";
+import Register, { Registry } from "mod/ModRegistry";
 import { ParticleType } from "renderer/particle/IParticle";
-import { TileEventType } from "game/tile/ITileEvent";
-import { DoodadTypeGroup } from "game/doodad/IDoodad";
-import { CreatureType, TileGroup } from "game/entity/creature/ICreature";
-import Creature from "game/entity/creature/Creature";
+import particles from "renderer/particle/Particles";
+import { shake, toggleClasses, when } from "ui/screen/screens/game/static/stats/StatDisplayDescriptions";
 
-import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
-import { MagicologyTranslation } from "./IMagicology";
 import { SfxType } from "audio/IAudio";
-import { Source } from "game/entity/player/IMessageManager";
 import Human from "game/entity/Human";
+import { Source } from "game/entity/player/IMessageManager";
+import { MagicologyTranslation } from "./IMagicology";
+import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
 
 export default class Magicology extends Mod {
 
@@ -60,9 +60,9 @@ export default class Magicology extends Mod {
 	////////////////////////////////////
 
 	@Register.stat("Mana", {
-		color: "darkblue",
-		rgbColor: "var(--color-stat-thirst-rgb)",
-		darkColor: "var(--color-stat-thirst-dark)",
+		color: "var(--color-stat-modmagicologymana)",
+		rgbColor: "var(--color-stat-modmagicologymana-rgb)",
+		darkColor: "var(--color-stat-modmagicologymana-dark)",
 		displayType: StatDisplayType.Statbar,
 		displayOrder: 5,
 		tooltip: (tooltip, entity, stat) => tooltip

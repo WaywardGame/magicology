@@ -1,15 +1,15 @@
-import { ActionType } from "game/entity/action/IAction";
 import { SkillType } from "game/entity/IHuman";
 import { Stat } from "game/entity/IStats";
-import { ItemType } from "game/item/IItem";
-import Mod from "mod/Mod";
-import Dictionary from "language/Dictionary";
-import Player from "game/entity/player/Player";
-import Message from "language/dictionary/Message";
-import { CreatureType } from "game/entity/creature/ICreature";
+import { ActionType } from "game/entity/action/IAction";
 import Creature from "game/entity/creature/Creature";
-import { MagicologyTranslation } from "./IMagicology";
+import { CreatureType } from "game/entity/creature/ICreature";
+import Player from "game/entity/player/Player";
+import { ItemType } from "game/item/IItem";
+import Dictionary from "language/Dictionary";
+import Message from "language/dictionary/Message";
+import Mod from "mod/Mod";
 import Human from "game/entity/Human";
+import { MagicologyTranslation } from "./IMagicology";
 export default class Magicology extends Mod {
     static readonly INSTANCE: Magicology;
     readonly dictionary: Dictionary;

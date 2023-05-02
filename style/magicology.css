@@ -1,0 +1,8 @@
+:root {
+    --color-stat-modmagicologymana-rgb: 69 88 255;
+    --color-stat-modmagicologymana: rgb(var(--color-stat-modmagicologymana-rgb));
+    --color-stat-modmagicologymana-alpha: 1;
+    --color-stat-modmagicologymana-dark-rgb: 41 53 165;
+    --color-stat-modmagicologymana-dark: rgb(var(--color-stat-modmagicologymana-dark-rgb));
+    --color-stat-modmagicologymana-dark-alpha: 1;
+}
