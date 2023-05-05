@@ -14,6 +14,8 @@
 		"style/magicology"
 	],
 	"tags": [
-		"Item"
-	]
+		"Item",
+		"Creature"
+	],
+	"publishedFileId": "2971764696"
 }
