@@ -4,7 +4,7 @@ Adds magic to the game, allowing you to cast spells using mana.
 
 ## Features
 - Adds a new `Mana` stat, which is used for magical actions.
-- Adds an `Elemental Wooden Staff` equippable weapon that allowing you to cast attack spells.
+- Adds an `Elemental Wooden Staff` equippable weapon that allows you to cast attack spells.
 - Adds an `Elemental Glass Bottle` item that allows conjuring water.
 - Adds an `Elemental Baking Tray` item that allows conjuring food.
 - Adds an `Elemental Golem Figure` item that allows materializing a golem.
