@@ -361,13 +361,15 @@ export default class Magicology extends Mod {
 
 	////////////////////////////////////
 
-	@EventHandler(Player, "spawn")
+	@EventHandler(Player, "loadedOnIsland")
 	protected onPlayerSpawn(player: Player): void {
-		if (!player.stat.has(this.statMana)) {
-			player.stat.set(this.statMana, 100);
-			player.stat.setMax(this.statMana, 100);
-			player.stat.setChangeTimer(this.statMana, 1, t => t.setCurrentTimer(StatChangeCurrentTimerStrategy.Reset).setAmount(1));
+		if (player.stat.has(this.statMana)) {
+			return;
 		}
+
+		player.stat.set(this.statMana, 100);
+		player.stat.setMax(this.statMana, 100);
+		player.stat.setChangeTimer(this.statMana, 1, t => t.setCurrentTimer(StatChangeCurrentTimerStrategy.Reset).setAmount(1));
 
 		const itemTypes = [
 			this.itemElementalWoodenStaff,
