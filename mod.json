@@ -17,5 +17,6 @@
 		"Item",
 		"Creature"
 	],
+	"allowUnlockingMilestones": true,
 	"publishedFileId": "2971764696"
 }
