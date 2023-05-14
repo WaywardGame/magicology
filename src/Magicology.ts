@@ -109,9 +109,9 @@ export default class Magicology extends Mod {
 
 	@Register.item("elementalWoodenStaff", {
 		equip: EquipType.Held,
-		durability: 500,
+		durability: 25,
 		equipEffect: [EquipEffect.LightSource, 2],
-		attack: 10,
+		attack: 3,
 		damageType: DamageType.Blunt,
 		ranged: {
 			range: 8,
@@ -176,7 +176,7 @@ export default class Magicology extends Mod {
 		recipe: {
 			baseComponent: ItemType.GlassBottle,
 			components: [
-				RecipeComponent(ItemType.MagicalBinding, 1, 1),
+				RecipeComponent(ItemTypeGroup.Fruit, 2, 2),
 			],
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
@@ -200,11 +200,11 @@ export default class Magicology extends Mod {
 
 	@Register.item("elementalBakingTray", {
 		use: [Registry<Magicology>().get("actionConjureFood")],
-		durability: 100,
+		durability: 25,
 		recipe: {
 			baseComponent: ItemTypeGroup.Cookware,
 			components: [
-				RecipeComponent(ItemType.MagicalBinding, 1, 1),
+				RecipeComponent(ItemTypeGroup.Treasure, 1, 1),
 			],
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
@@ -227,7 +227,7 @@ export default class Magicology extends Mod {
 		recipe: {
 			baseComponent: ItemType.GlassBottle,
 			components: [
-				RecipeComponent(ItemType.MagicalBinding, 1, 1),
+				RecipeComponent(ItemTypeGroup.WispContainer, 1, 1),
 			],
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
@@ -274,7 +274,7 @@ export default class Magicology extends Mod {
 		recipe: {
 			baseComponent: ItemTypeGroup.Golem,
 			components: [
-				RecipeComponent(ItemType.MagicalBinding, 1, 1),
+				RecipeComponent(ItemTypeGroup.Treasure, 1, 1),
 			],
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
@@ -282,7 +282,7 @@ export default class Magicology extends Mod {
 		},
 		flammable: true,
 		worth: 1100,
-		durability: 50,
+		durability: 25,
 		burnsLike: [ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Amber],
 		group: [ItemTypeGroup.Golem, ItemTypeGroup.NotForSale],
 	})
