@@ -1,7 +1,7 @@
 {
 	"name": "Magicology",
 	"description": "Adds magic to the game, allowing you to cast spells using mana.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "Spacetech",
 	"github": "https://github.com/WaywardGame/magicology",
 	"waywardVersion": "2.13.0-beta",
@@ -17,5 +17,6 @@
 		"Item",
 		"Creature"
 	],
+	"allowUnlockingMilestones": true,
 	"publishedFileId": "2971764696"
 }
