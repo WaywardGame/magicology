@@ -295,7 +295,7 @@ export default class Magicology extends Mod {
 		worth: 1100,
 		durability: 25,
 		burnsLike: [ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Amber],
-		group: [ItemTypeGroup.Golem, ItemTypeGroup.NotForSale],
+		group: [ItemTypeGroup.Golem, ItemTypeGroup.NotStockedOnMerchants],
 	})
 	public itemElementalGolemFigure: ItemType;
 
