@@ -1,3 +1,14 @@
+/*!
+ * Copyright 2011-2023 Unlok
+ * https://www.unlok.ca
+ *
+ * Credits & Thanks:
+ * https://www.unlok.ca/credits-thanks/
+ *
+ * Wayward is a copyrighted and licensed work. Modification and/or distribution of any source files is prohibited. If you wish to modify the game in any way, please refer to the modding guide:
+ * https://github.com/WaywardGame/types/wiki
+ */
+
 import { EventHandler } from "event/EventManager";
 import { DoodadTypeGroup } from "game/doodad/IDoodad";
 import { AiType, DamageType, Defense, MoveType } from "game/entity/IEntity";
@@ -284,7 +295,7 @@ export default class Magicology extends Mod {
 		worth: 1100,
 		durability: 25,
 		burnsLike: [ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Log, ItemType.Amber],
-		group: [ItemTypeGroup.Golem, ItemTypeGroup.NotForSale],
+		group: [ItemTypeGroup.Golem, ItemTypeGroup.NotStockedOnMerchants],
 	})
 	public itemElementalGolemFigure: ItemType;
 
