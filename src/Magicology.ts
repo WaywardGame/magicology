@@ -373,6 +373,15 @@ export default class Magicology extends Mod {
 	////////////////////////////////////
 
 	@EventHandler(Player, "loadedOnIsland")
+	protected onPlayerLoadedOnIsland(player: Player): void {
+		// loadedOnIsland is clientside when starting a game
+		// ensure players get the items when enabling the mod on an already existing save
+		if (!multiplayer.isConnected()) {
+			this.onPlayerSpawn(player);
+		}
+	}
+
+	@EventHandler(Player, "spawn")
 	protected onPlayerSpawn(player: Player): void {
 		if (player.stat.has(this.statMana)) {
 			return;
