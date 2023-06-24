@@ -30,6 +30,7 @@ import Register, { Registry } from "mod/ModRegistry";
 import { ParticleType } from "renderer/particle/IParticle";
 import particles from "renderer/particle/Particles";
 import { shake, toggleClasses, when } from "ui/screen/screens/game/static/stats/StatDisplayDescriptions";
+import Color from "utilities/Color";
 
 import { SfxType } from "audio/IAudio";
 import Human from "game/entity/Human";
@@ -144,7 +145,7 @@ export default class Magicology extends Mod {
 						return particles[ParticleType.Fire];
 
 					case Magicology.INSTANCE.actionFrostbolt:
-						return particles[ParticleType.Water];
+						return Color(12, 128, 247);
 				}
 
 				return undefined;
