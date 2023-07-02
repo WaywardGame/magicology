@@ -47,6 +47,7 @@ export default class Magicology extends Mod {
     itemFireball: ItemType;
     itemFrostbolt: ItemType;
     creatureElementalGolemFigure: CreatureType;
+    protected onPlayerLoadedOnIsland(player: Player): void;
     protected onPlayerSpawn(player: Player): void;
     protected onPlayerTickStart(player: Player): void;
     getTranslation(translation: MagicologyTranslation): import("../node_modules/@wayward/types/definitions/game/language/impl/TranslationImpl").default;
