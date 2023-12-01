@@ -10,6 +10,6 @@
  */
 
 export enum MagicologyTranslation {
-    GameStatsStatManaTooltip,
-    ActionYouShootMagicalAttack,
+	GameStatsStatManaTooltip,
+	ActionYouShootMagicalAttack,
 }
