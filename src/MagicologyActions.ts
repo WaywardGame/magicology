@@ -44,11 +44,6 @@ export const createAttackAction = (requiredMana: number) => new Action(ActionArg
 		return Attack.canUse(action, item, AttackType.RangedWeapon);
 	})
 	.setHandler((action, item) => {
-		const canUse = action.canUse();
-		if (!canUse.usable) {
-			return;
-		}
-
 		action.executor.stat.reduce(Magicology.INSTANCE.statMana, requiredMana);
 
 		Attack.execute(action, item, AttackType.RangedWeapon);
@@ -81,11 +76,6 @@ export const createConjureAction = (requiredMana: number) => new Action(ActionAr
 		};
 	})
 	.setHandler((action, item) => {
-		const canUse = action.canUse();
-		if (!canUse.usable) {
-			return;
-		}
-
 		action.executor.stat.reduce(Magicology.INSTANCE.statMana, requiredMana);
 
 		let conjuredItem: Item;
@@ -182,12 +172,7 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 	.setHandler((action, item) => {
 		action.setDelay(Delay.LongPause);
 
-		const canUse = action.canUse();
-		if (!canUse.usable) {
-			return;
-		}
-
-		const { tile } = canUse;
+		const { tile } = action.use;
 
 		let creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, tile, false, false, undefined, true);
 		if (!creature) {
@@ -256,12 +241,7 @@ export const createDematerializeAction = () => new Action(ActionArgument.ItemInv
 	.setHandler((action, item) => {
 		action.setDelay(Delay.LongPause);
 
-		const canUse = action.canUse();
-		if (!canUse.usable) {
-			return;
-		}
-
-		const { creatures } = canUse;
+		const { creatures } = action.use;
 
 		for (const creature of creatures) {
 			Magicology.INSTANCE.dematerialize(creature);
