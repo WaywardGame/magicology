@@ -1,5 +1,5 @@
 /*!
- * Copyright 2011-2023 Unlok
+ * Copyright 2011-2024 Unlok
  * https://www.unlok.ca
  *
  * Credits & Thanks:
@@ -17,6 +17,7 @@ import Attack from "@wayward/game/game/entity/action/actions/Attack";
 import { SfxType } from "@wayward/game/audio/IAudio";
 import { Delay } from "@wayward/game/game/entity/IHuman";
 import { Stat } from "@wayward/game/game/entity/IStats";
+import { NotUsableMessage, NotUsableMessageItem } from "@wayward/game/game/entity/action/actions/helper/NotUsableMessage";
 import Creature from "@wayward/game/game/entity/creature/Creature";
 import { TileGroup } from "@wayward/game/game/entity/creature/ICreature";
 import { MessageType, Source } from "@wayward/game/game/entity/player/IMessageManager";
@@ -34,10 +35,10 @@ export const createAttackAction = (requiredMana: number) => new Action(ActionArg
 		if (!mana || mana.value < requiredMana) {
 			return {
 				usable: false,
-				message: Magicology.INSTANCE.messageNotEnoughMana,
 				sources: [Source.Equipment, Source.Item],
 				errorDisplayLevel: ActionDisplayLevel.Always,
-				args: () => [requiredMana],
+				message: NotUsableMessage.simple(Magicology.INSTANCE.messageNotEnoughMana,
+					() => [requiredMana]),
 			};
 		}
 
@@ -64,10 +65,10 @@ export const createConjureAction = (requiredMana: number) => new Action(ActionAr
 		if (!mana || mana.value < requiredMana) {
 			return {
 				usable: false,
-				message: Magicology.INSTANCE.messageNotEnoughMana,
 				sources: [Source.Equipment, Source.Item],
 				errorDisplayLevel: ActionDisplayLevel.Always,
-				args: () => [requiredMana],
+				message: NotUsableMessage.simple(Magicology.INSTANCE.messageNotEnoughMana,
+					() => [requiredMana]),
 			};
 		}
 
@@ -120,6 +121,8 @@ interface IMaterializeCanUse extends IActionUsable {
 	tile: Tile;
 }
 
+const CannotUseSomethingInTheWay = NotUsableMessageItem({ message: Message.SomethingInTheWayOfSummoning });
+
 export const createMaterializeAction = (requiredMana: number) => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setPreExecutionHandler((action, item) => action.addItems(item))
@@ -135,10 +138,10 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 		if (!mana || mana.value < requiredMana) {
 			return {
 				usable: false,
-				message: Magicology.INSTANCE.messageNotEnoughMana,
 				sources: [Source.Equipment, Source.Item],
 				errorDisplayLevel: ActionDisplayLevel.Always,
-				args: () => [requiredMana],
+				message: NotUsableMessage.simple(Magicology.INSTANCE.messageNotEnoughMana,
+					() => [requiredMana]),
 			};
 		}
 
@@ -156,10 +159,7 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 
 		if (action.isCreatureBlocking(tile) || tile.npc !== undefined || tile.isPlayerOnTile()) {
 			return {
-				usable: false,
-				message: Message.SomethingInTheWayOfSummoning,
-				sources: Source.Item,
-				args: () => item.getName(),
+				...CannotUseSomethingInTheWay(item),
 				mobCheckTile: tile,
 			};
 		}

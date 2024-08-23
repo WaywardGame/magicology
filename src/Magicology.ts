@@ -1,5 +1,5 @@
 /*!
- * Copyright 2011-2023 Unlok
+ * Copyright 2011-2024 Unlok
  * https://www.unlok.ca
  *
  * Credits & Thanks:
@@ -13,7 +13,7 @@ import { SfxType } from "@wayward/game/audio/IAudio";
 import { EventHandler } from "@wayward/game/event/EventManager";
 import { DoodadTypeGroup } from "@wayward/game/game/doodad/IDoodad";
 import Human from "@wayward/game/game/entity/Human";
-import { AiType, DamageType, Defense, MoveType } from "@wayward/game/game/entity/IEntity";
+import { DamageType, Defense, MoveType } from "@wayward/game/game/entity/IEntity";
 import { EquipType, SkillType } from "@wayward/game/game/entity/IHuman";
 import { Stat, StatDisplayType } from "@wayward/game/game/entity/IStats";
 import { StatChangeCurrentTimerStrategy } from "@wayward/game/game/entity/StatFactory";
@@ -36,6 +36,7 @@ import { shake, toggleClasses, when } from "@wayward/game/ui/screen/screens/game
 import Color from "@wayward/utilities/Color";
 
 import { Deity } from "@wayward/game/game/deity/Deity";
+import { AiType } from "@wayward/game/game/entity/AI";
 import TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
 import { MagicologyTranslation } from "./IMagicology";
 import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
