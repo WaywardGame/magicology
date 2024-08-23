@@ -19,6 +19,19 @@ jobs:
         with:
           node-version: "20.x"
 
+      - name: Parse package.json
+        id: set_var
+        run: |
+          content=`cat ./package.json`
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+      - run: |
+          echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
+          echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
+
       - name: npm install
         run: npm install
 
