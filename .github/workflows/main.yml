@@ -27,7 +27,7 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          echo "::set-output name=packageJson::$content"
+          echo "packageJson=$content" >> $GITHUB_OUTPUT
       - run: |
           echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
           echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
@@ -45,6 +45,6 @@ jobs:
         run: |
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+              --title="${GITHUB_REPOSITORY#*/} ${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}" \
               --generate-notes \
               $EXTRA_ARGS
