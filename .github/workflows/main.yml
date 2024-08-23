@@ -26,7 +26,9 @@ jobs:
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
-          echo "TYPES_VERSION=${{fromJson($content).devDependencies['@wayward/types']}}" | cut -c 2-999 >> $GITHUB_ENV
+          # end of optional handling for multi line json
+          echo "packageJson=$content" >> $GITHUB_OUTPUT
+          echo "TYPES_VERSION=${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}" | cut -c 2-999 >> $GITHUB_ENV
 
       - name: npm install
         run: npm install
