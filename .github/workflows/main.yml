@@ -6,6 +6,7 @@ on:
       - development
 
 env:
+  REPO_NAME: ${{ github.event.repository.name }}
   EXTRA_ARGS: ${{ github.ref == 'refs/heads/development' && '--prerelease' || '' }}
 
 jobs:
