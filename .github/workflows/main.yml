@@ -51,10 +51,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$TYPES_VERSION" \
+          gh release create "v$TYPES_VERSION" \
               --repo="$GITHUB_REPOSITORY" \
               --target="${{ github.sha }}" \
-              --title="${GITHUB_REPOSITORY#*/} $TYPES_VERSION" \
+              --title="v$TYPES_VERSION" \
               --generate-notes \
               $EXTRA_ARGS \
               "../$REPO_NAME.zip#$REPO_NAME.zip"
