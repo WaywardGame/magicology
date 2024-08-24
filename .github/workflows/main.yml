@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release delete "v$TYPES_VERSION" --cleanup-tag -y
+          gh release delete "v$TYPES_VERSION" --cleanup-tag -y &>/dev/null
           gh release create "v$TYPES_VERSION" \
               --repo="$GITHUB_REPOSITORY" \
               --target="${{ github.sha }}" \
