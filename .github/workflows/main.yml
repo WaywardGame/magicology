@@ -42,10 +42,9 @@ jobs:
         run: npm run build
 
       - name: zip
-        # run: git archive --format=zip --prefix=$REPO_NAME/ --output $REPO_NAME.zip ${{ github.ref }}
         run: |
           cd ../
-          zip -r $REPO_NAME.zip $REPO_NAME -x ".git/*" ".github/*"
+          zip -r $REPO_NAME.zip $REPO_NAME -x "\.git/*" "\.github/*" "\node_modules/*"
 
       - name: Create release
         env:
