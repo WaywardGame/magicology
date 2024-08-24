@@ -49,7 +49,6 @@ jobs:
       - name: Delete release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
         continue-on-error: true
         run: |
           gh release delete "v$TYPES_VERSION" --cleanup-tag --yes
