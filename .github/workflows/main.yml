@@ -31,7 +31,8 @@ jobs:
           echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
           echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
           typesversion=$(echo ${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}} | cut -c 2-999)
-          echo "TYPES_VERSION=$typesversion" >> $GITHUB_OUTPUT
+          echo "$typesversion"
+          echo "TYPES_VERSION=$typesversion" >> $GITHUB_ENV
 
       # - name: Parse package.json
       #   id: set_var
@@ -57,7 +58,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release create "$tag" \
+          gh release create "$TYPES_VERSION" \
               --repo="$GITHUB_REPOSITORY" \
               --title="${GITHUB_REPOSITORY#*/} $TYPES_VERSION" \
               --generate-notes \
