@@ -26,7 +26,7 @@ jobs:
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
-          echo "packageJson=$content" >> $GITHUB_OUTPUT
+          echo "packageJson=${content}" >> $GITHUB_OUTPUT
       - run: |
           echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
           echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
