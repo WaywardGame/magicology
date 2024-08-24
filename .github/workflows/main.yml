@@ -46,12 +46,20 @@ jobs:
           cd ../
           zip -r $REPO_NAME.zip $REPO_NAME -x "$REPO_NAME/.git/*" "$REPO_NAME/.github/*" "$REPO_NAME/node_modules/*"
 
+      - name: Delete release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+        continue-on-error: true
+        run: |
+          gh release delete "v$TYPES_VERSION" --cleanup-tag --yes
+
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
-          gh release delete "v$TYPES_VERSION" --cleanup-tag --yes 2> /dev/null
+          gh release delete "v$TYPES_VERSION" --cleanup-tag --yes
           gh release create "v$TYPES_VERSION" \
               --repo="$GITHUB_REPOSITORY" \
               --target="${{ github.sha }}" \
