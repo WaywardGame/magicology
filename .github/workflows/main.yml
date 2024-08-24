@@ -44,7 +44,7 @@ jobs:
       - name: zip
         run: |
           cd ../
-          zip -r $REPO_NAME.zip $REPO_NAME -x "\.git/*" "\.github/*" "\node_modules/*"
+          zip -r $REPO_NAME.zip $REPO_NAME -x "$REPO_NAME/.git/*" "$REPO_NAME/.github/*" "$REPO_NAME/node_modules/*"
 
       - name: Create release
         env:
