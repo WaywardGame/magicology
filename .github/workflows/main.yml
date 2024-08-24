@@ -27,10 +27,11 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=packageJson::$content"
-          echo "Types version ${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
       - run: |
           echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
           echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
+          typesversion=$(echo ${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}} | cut -c 2-999)
+          echo "TYPES_VERSION=$typesversion" >> $GITHUB_OUTPUT
 
       # - name: Parse package.json
       #   id: set_var
