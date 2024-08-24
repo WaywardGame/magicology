@@ -40,6 +40,9 @@ jobs:
       - name: npm run build
         run: npm run build
 
+      - name: zip
+        run: git archive --format=zip --prefix=$REPO_NAME/ --output $REPO_NAME.zip ${{ github.ref }}
+
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,4 +53,5 @@ jobs:
               --target="${{ github.sha }}" \
               --title="${GITHUB_REPOSITORY#*/} $TYPES_VERSION" \
               --generate-notes \
-              $EXTRA_ARGS
+              $EXTRA_ARGS \
+              '/$REPO_NAME.zip#$REPO_NAME'
