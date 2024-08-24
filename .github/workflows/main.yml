@@ -30,7 +30,19 @@ jobs:
       - run: |
           echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
           echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
-        # echo "TYPES_VERSION=${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}" >> $GITHUB_ENV
+
+      # - name: Parse package.json
+      #   id: set_var
+      #   run: |
+      #     content=`cat ./package.json`
+      #     content="${content//'%'/'%25'}"
+      #     content="${content//$'\n'/'%0A'}"
+      #     content="${content//$'\r'/'%0D'}"
+      #     echo "packageJson=$content" >> $GITHUB_OUTPUT
+      # - run: |
+      #     echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
+      #     echo "${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}"
+      # echo "TYPES_VERSION=${{fromJson(steps.set_var.outputs.packageJson).devDependencies['@wayward/types']}}" >> $GITHUB_ENV
 
       - name: npm install
         run: npm install
