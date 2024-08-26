@@ -36,7 +36,7 @@ import { shake, toggleClasses, when } from "@wayward/game/ui/screen/screens/game
 import Color from "@wayward/utilities/Color";
 
 import { Deity } from "@wayward/game/game/deity/Deity";
-import { AiType } from "@wayward/game/game/entity/AI";
+import { AiType } from "@wayward/game/game/entity/ai/AI";
 import TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
 import { MagicologyTranslation } from "./IMagicology";
 import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
