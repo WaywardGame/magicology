@@ -180,9 +180,9 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 			creature.tile.createParticles(creature.tile.description?.particles);
 
 			// serve the player forever
-			renderers.notifier.suspend();
-			creature.tame(action.executor, Number.MAX_SAFE_INTEGER);
-			renderers.notifier.resume();
+			renderers.notifier.suspend((creature) => {
+				creature.tame(action.executor, Number.MAX_SAFE_INTEGER);
+			}, creature);
 
 			creature.queueSoundEffect(SfxType.CreatureNoise);
 			creature.skipNextUpdate();

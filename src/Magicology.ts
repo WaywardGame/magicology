@@ -481,8 +481,8 @@ export default class Magicology extends Mod {
 		creature.queueSoundEffect(SfxType.CreatureNoise);
 		creature.tile.createParticles(creature.tile.description?.particles);
 
-		renderers.notifier.suspend();
-		creature.island.creatures.remove(creature);
-		renderers.notifier.resume();
+		renderers.notifier.suspend(() => {
+			creature.island.creatures.remove(creature);
+		});
 	}
 }
