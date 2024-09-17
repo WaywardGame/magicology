@@ -24,7 +24,7 @@ import particles from "@wayward/game/renderer/particle/Particles";
 import { shake, toggleClasses, when } from "@wayward/game/ui/screen/screens/game/static/stats/StatDisplayDescriptions";
 import Color from "@wayward/utilities/Color";
 
-import { Deity } from "@wayward/game/game/deity/Deity";
+import Deity from "@wayward/game/game/deity/Deity";
 import { AiType } from "@wayward/game/game/entity/ai/AI";
 import TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
 import { MagicologyTranslation } from "./IMagicology";
