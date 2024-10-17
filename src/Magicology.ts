@@ -172,7 +172,7 @@ export default class Magicology extends Mod {
 		inheritWeight: ItemType.GlassBottle,
 		use: [ActionType.DrinkItem],
 		onUse: {
-			[ActionType.DrinkItem]: [0, 0, 0, 0, [{
+			[ActionType.DrinkItem]: [0, 0, 0, 0, Registry<Magicology>().get("skillMagicology"), [{
 				stat: Registry<Magicology>().get("statMana"),
 				amount: 50,
 			}]],
@@ -256,7 +256,7 @@ export default class Magicology extends Mod {
 		keepDurabilityOnCraft: true,
 		repairable: false,
 		onUse: {
-			[ActionType.DrinkItem]: [1, 25, 1, 10],
+			[ActionType.DrinkItem]: [1, 25, 1, 10, SkillType.None],
 			[ActionType.Pour]: TileEventType.PuddleOfPurifiedFreshWater,
 			[ActionType.PourOnYourself]: TileEventType.PuddleOfPurifiedFreshWater,
 		},
