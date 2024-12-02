@@ -1,22 +1,24 @@
 import { SfxType } from "@wayward/game/audio/IAudio";
 import { EventHandler } from "@wayward/game/event/EventManager";
 import { DoodadTypeGroup } from "@wayward/game/game/doodad/IDoodad";
-import Human from "@wayward/game/game/entity/Human";
+import type Human from "@wayward/game/game/entity/Human";
 import { DamageType, Defense, MoveType } from "@wayward/game/game/entity/IEntity";
 import { EquipType, SkillType } from "@wayward/game/game/entity/IHuman";
-import { Stat, StatDisplayType } from "@wayward/game/game/entity/IStats";
+import type { Stat } from "@wayward/game/game/entity/IStats";
+import { StatDisplayType } from "@wayward/game/game/entity/IStats";
 import { StatChangeCurrentTimerStrategy } from "@wayward/game/game/entity/StatFactory";
 import { ActionType } from "@wayward/game/game/entity/action/IAction";
-import Creature from "@wayward/game/game/entity/creature/Creature";
-import { CreatureType, TileGroup } from "@wayward/game/game/entity/creature/ICreature";
+import type Creature from "@wayward/game/game/entity/creature/Creature";
+import type { CreatureType } from "@wayward/game/game/entity/creature/ICreature";
+import { TileGroup } from "@wayward/game/game/entity/creature/ICreature";
 import { Source } from "@wayward/game/game/entity/player/IMessageManager";
 import Player from "@wayward/game/game/entity/player/Player";
 import { EquipEffect, ItemType, ItemTypeGroup, RecipeLevel } from "@wayward/game/game/item/IItem";
 import { RecipeComponent } from "@wayward/game/game/item/ItemDescriptions";
 import { TileEventType } from "@wayward/game/game/tile/ITileEvent";
-import Dictionary from "@wayward/game/language/Dictionary";
+import type Dictionary from "@wayward/game/language/Dictionary";
 import Translation from "@wayward/game/language/Translation";
-import Message from "@wayward/game/language/dictionary/Message";
+import type Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
 import Register, { Registry } from "@wayward/game/mod/ModRegistry";
 import { ParticleType } from "@wayward/game/renderer/particle/IParticle";
@@ -26,7 +28,7 @@ import Color from "@wayward/utilities/Color";
 
 import Deity from "@wayward/game/game/deity/Deity";
 import { AiType } from "@wayward/game/game/entity/ai/AI";
-import TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
+import type TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
 import { MagicologyTranslation } from "./IMagicology";
 import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
 
@@ -120,7 +122,7 @@ export default class Magicology extends Mod {
 		ranged: {
 			range: 8,
 			attack: 5,
-			ammunitionType: (action) => {
+			ammunitionType: action => {
 				switch (action.actionStack[0]) {
 					case Magicology.INSTANCE.actionFireball:
 						return Magicology.INSTANCE.itemFireball;
@@ -131,7 +133,7 @@ export default class Magicology extends Mod {
 
 				return undefined;
 			},
-			particles: (action) => {
+			particles: action => {
 				switch (action.actionStack[0]) {
 					case Magicology.INSTANCE.actionFireball:
 						return particles[ParticleType.Fire];

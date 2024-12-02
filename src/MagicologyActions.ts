@@ -1,22 +1,24 @@
 import { AttackType, EntityType } from "@wayward/game/game/entity/IEntity";
 import { Action } from "@wayward/game/game/entity/action/Action";
-import { ActionArgument, ActionDisplayLevel, IActionUsable } from "@wayward/game/game/entity/action/IAction";
+import type { IActionUsable } from "@wayward/game/game/entity/action/IAction";
+import { ActionArgument, ActionDisplayLevel } from "@wayward/game/game/entity/action/IAction";
 import Attack from "@wayward/game/game/entity/action/actions/Attack";
 
 import { SfxType } from "@wayward/game/audio/IAudio";
 import { Delay } from "@wayward/game/game/entity/IHuman";
 import { Stat } from "@wayward/game/game/entity/IStats";
 import { NotUsableMessage, NotUsableMessageItem } from "@wayward/game/game/entity/action/actions/helper/NotUsableMessage";
-import Creature from "@wayward/game/game/entity/creature/Creature";
+import type Creature from "@wayward/game/game/entity/creature/Creature";
 import { TileGroup } from "@wayward/game/game/entity/creature/ICreature";
 import { MessageType, Source } from "@wayward/game/game/entity/player/IMessageManager";
 import { ItemTypeGroup } from "@wayward/game/game/item/IItem";
-import Item from "@wayward/game/game/item/Item";
-import Tile from "@wayward/game/game/tile/Tile";
+import type Item from "@wayward/game/game/item/Item";
+import type Tile from "@wayward/game/game/tile/Tile";
 import Translation from "@wayward/game/language/Translation";
 import Message from "@wayward/game/language/dictionary/Message";
 import Magicology from "./Magicology";
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createAttackAction = (requiredMana: number) => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setCanUse((action, item) => {
@@ -36,9 +38,10 @@ export const createAttackAction = (requiredMana: number) => new Action(ActionArg
 	.setHandler((action, item) => {
 		action.executor.stat.reduce(Magicology.INSTANCE.statMana, requiredMana);
 
-		Attack.execute(action, item, AttackType.RangedWeapon);
+		void Attack.execute(action, item, AttackType.RangedWeapon);
 	});
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createConjureAction = (requiredMana: number) => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setPreExecutionHandler((action, item) => action.addItems(item))
@@ -112,6 +115,7 @@ interface IMaterializeCanUse extends IActionUsable {
 
 const CannotUseSomethingInTheWay = NotUsableMessageItem({ message: Message.SomethingInTheWayOfSummoning });
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createMaterializeAction = (requiredMana: number) => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setPreExecutionHandler((action, item) => action.addItems(item))
@@ -180,7 +184,7 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 			creature.tile.createParticles(creature.tile.description?.particles);
 
 			// serve the player forever
-			renderers.notifier.suspend((creature) => {
+			renderers.notifier.suspend(creature => {
 				creature.tame(action.executor, Number.MAX_SAFE_INTEGER);
 			}, creature);
 
@@ -205,6 +209,7 @@ interface IDematerializeCanUse extends IActionUsable {
 	creatures: Creature[];
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createDematerializeAction = () => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setCanUse<IDematerializeCanUse>((action, item) => {
