@@ -10,6 +10,9 @@
 			"modMagicologyYouRanOutOfManaMaterializations": "You ran out of mana for your materializations!",
 			"modMagicologyYouShootMagicalAttack": "You shoot {0} at a range of {2?{#--COLOR-MAGICAL:{1}}:{1}}."
 		},
+		"itemGroup": {
+			"modMagicologyMagicology": "Magicology"
+		},
 		"item": {
 			"modMagicologyElementalWoodenStaff": [
 				"elemental wooden staff",

@@ -1,40 +1,34 @@
-/*!
- * Copyright 2011-2023 Unlok
- * https://www.unlok.ca
- *
- * Credits & Thanks:
- * https://www.unlok.ca/credits-thanks/
- *
- * Wayward is a copyrighted and licensed work. Modification and/or distribution of any source files is prohibited. If you wish to modify the game in any way, please refer to the modding guide:
- * https://github.com/WaywardGame/types/wiki
- */
+import { SfxType } from "@wayward/game/audio/IAudio";
+import { EventHandler } from "@wayward/game/event/EventManager";
+import { DoodadTypeGroup } from "@wayward/game/game/doodad/IDoodad";
+import type Human from "@wayward/game/game/entity/Human";
+import { DamageType, Defense, MoveType } from "@wayward/game/game/entity/IEntity";
+import { EquipType, SkillType } from "@wayward/game/game/entity/IHuman";
+import type { Stat } from "@wayward/game/game/entity/IStats";
+import { StatDisplayType } from "@wayward/game/game/entity/IStats";
+import { StatChangeCurrentTimerStrategy } from "@wayward/game/game/entity/StatFactory";
+import { ActionType } from "@wayward/game/game/entity/action/IAction";
+import type Creature from "@wayward/game/game/entity/creature/Creature";
+import type { CreatureType } from "@wayward/game/game/entity/creature/ICreature";
+import { TileGroup } from "@wayward/game/game/entity/creature/ICreature";
+import { Source } from "@wayward/game/game/entity/player/IMessageManager";
+import Player from "@wayward/game/game/entity/player/Player";
+import { EquipEffect, ItemType, ItemTypeGroup, RecipeLevel } from "@wayward/game/game/item/IItem";
+import { RecipeComponent } from "@wayward/game/game/item/ItemDescriptions";
+import { TileEventType } from "@wayward/game/game/tile/ITileEvent";
+import type Dictionary from "@wayward/game/language/Dictionary";
+import Translation from "@wayward/game/language/Translation";
+import type Message from "@wayward/game/language/dictionary/Message";
+import Mod from "@wayward/game/mod/Mod";
+import Register, { Registry } from "@wayward/game/mod/ModRegistry";
+import { ParticleType } from "@wayward/game/renderer/particle/IParticle";
+import particles from "@wayward/game/renderer/particle/Particles";
+import { shake, toggleClasses, when } from "@wayward/game/ui/screen/screens/game/static/stats/StatDisplayDescriptions";
+import Color from "@wayward/utilities/Color";
 
-import { EventHandler } from "event/EventManager";
-import { DoodadTypeGroup } from "game/doodad/IDoodad";
-import { AiType, DamageType, Defense, MoveType } from "game/entity/IEntity";
-import { EquipType, SkillType } from "game/entity/IHuman";
-import { Stat, StatDisplayType } from "game/entity/IStats";
-import { StatChangeCurrentTimerStrategy } from "game/entity/StatFactory";
-import { ActionType } from "game/entity/action/IAction";
-import Creature from "game/entity/creature/Creature";
-import { CreatureType, TileGroup } from "game/entity/creature/ICreature";
-import Player from "game/entity/player/Player";
-import { EquipEffect, ItemType, ItemTypeGroup, RecipeLevel } from "game/item/IItem";
-import { RecipeComponent } from "game/item/ItemDescriptions";
-import { TileEventType } from "game/tile/ITileEvent";
-import Dictionary from "language/Dictionary";
-import Translation from "language/Translation";
-import Message from "language/dictionary/Message";
-import Mod from "mod/Mod";
-import Register, { Registry } from "mod/ModRegistry";
-import { ParticleType } from "renderer/particle/IParticle";
-import particles from "renderer/particle/Particles";
-import { shake, toggleClasses, when } from "ui/screen/screens/game/static/stats/StatDisplayDescriptions";
-import Color from "utilities/Color";
-
-import { SfxType } from "audio/IAudio";
-import Human from "game/entity/Human";
-import { Source } from "game/entity/player/IMessageManager";
+import Deity from "@wayward/game/game/deity/Deity";
+import { AiType } from "@wayward/game/game/entity/ai/AI";
+import type TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
 import { MagicologyTranslation } from "./IMagicology";
 import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
 
@@ -128,7 +122,7 @@ export default class Magicology extends Mod {
 		ranged: {
 			range: 8,
 			attack: 5,
-			ammunitionType: (action) => {
+			ammunitionType: action => {
 				switch (action.actionStack[0]) {
 					case Magicology.INSTANCE.actionFireball:
 						return Magicology.INSTANCE.itemFireball;
@@ -139,7 +133,7 @@ export default class Magicology extends Mod {
 
 				return undefined;
 			},
-			particles: (action) => {
+			particles: action => {
 				switch (action.actionStack[0]) {
 					case Magicology.INSTANCE.actionFireball:
 						return particles[ParticleType.Fire];
@@ -168,7 +162,7 @@ export default class Magicology extends Mod {
 			],
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
-			reputation: 10,
+			runeChance: [Deity.Good, 0.01],
 		},
 		flammable: true,
 		burnsLike: [ItemType.WoodenPole, ItemType.Sinew],
@@ -180,7 +174,7 @@ export default class Magicology extends Mod {
 		inheritWeight: ItemType.GlassBottle,
 		use: [ActionType.DrinkItem],
 		onUse: {
-			[ActionType.DrinkItem]: [0, 0, 0, 0, [{
+			[ActionType.DrinkItem]: [0, 0, 0, 0, Registry<Magicology>().get("skillMagicology"), [{
 				stat: Registry<Magicology>().get("statMana"),
 				amount: 50,
 			}]],
@@ -193,7 +187,7 @@ export default class Magicology extends Mod {
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
 			requiresFire: true,
-			reputation: 25,
+			runeChance: [Deity.Good, 0.025],
 		},
 		skillUse: Registry<Magicology>().get("skillMagicology"),
 		durability: 15,
@@ -222,7 +216,7 @@ export default class Magicology extends Mod {
 			level: RecipeLevel.Advanced,
 			requiredDoodads: [DoodadTypeGroup.Anvil],
 			requiresFire: true,
-			reputation: 25,
+			runeChance: [Deity.Good, 0.025],
 		},
 		requiredForDisassembly: [ItemTypeGroup.Hammer, ItemTypeGroup.SandCastFlask],
 		worth: 150,
@@ -244,7 +238,7 @@ export default class Magicology extends Mod {
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
 			requiresFire: true,
-			reputation: 25,
+			runeChance: [Deity.Good, 0.025],
 		},
 		durability: 15,
 		worth: 50,
@@ -264,7 +258,7 @@ export default class Magicology extends Mod {
 		keepDurabilityOnCraft: true,
 		repairable: false,
 		onUse: {
-			[ActionType.DrinkItem]: [1, 25, 1, 10],
+			[ActionType.DrinkItem]: [1, 25, 1, 10, SkillType.None],
 			[ActionType.Pour]: TileEventType.PuddleOfPurifiedFreshWater,
 			[ActionType.PourOnYourself]: TileEventType.PuddleOfPurifiedFreshWater,
 		},
@@ -290,7 +284,7 @@ export default class Magicology extends Mod {
 			],
 			skill: Registry<Magicology>().get("skillMagicology"),
 			level: RecipeLevel.Advanced,
-			reputation: 100,
+			runeChance: [Deity.Good, 0.1],
 		},
 		flammable: true,
 		worth: 1100,
@@ -320,6 +314,20 @@ export default class Magicology extends Mod {
 
 	////////////////////////////////////
 
+	@Register.itemGroup("Magicology", {
+		default: Registry<Magicology>().get("itemElementalWoodenStaff"),
+		types: [
+			Registry<Magicology>().get("itemElementalWoodenStaff"),
+			Registry<Magicology>().get("itemElementalBakingTray"),
+			Registry<Magicology>().get("itemElementalGlassBottle"),
+			Registry<Magicology>().get("itemElementalGolemFigure"),
+			Registry<Magicology>().get("itemManaPotion"),
+		],
+	})
+	public itemGroupMagicology: ItemTypeGroup;
+
+	////////////////////////////////////
+
 	@Register.creature("elementalGolem", {
 		minhp: 123,
 		maxhp: 130,
@@ -333,7 +341,7 @@ export default class Magicology extends Mod {
 		moveType: MoveType.Land | MoveType.ShallowWater | MoveType.BreakDoodads | MoveType.BreakItems,
 		spawnTiles: TileGroup.DefaultWithWater,
 		makeNoise: true,
-		reputation: 0,
+		runeChance: [Deity.Good, 0],
 		canTrample: true,
 		skipMovementChance: 5,
 		weight: 30.8,
@@ -377,7 +385,7 @@ export default class Magicology extends Mod {
 	protected onPlayerLoadedOnIsland(player: Player): void {
 		// loadedOnIsland is clientside when starting a game
 		// ensure players get the items when enabling the mod on an already existing save
-		if (!multiplayer.isConnected()) {
+		if (!multiplayer.isConnected) {
 			this.onPlayerSpawn(player);
 		}
 	}
@@ -456,7 +464,7 @@ export default class Magicology extends Mod {
 		}
 	}
 
-	public getTranslation(translation: MagicologyTranslation) {
+	public getTranslation(translation: MagicologyTranslation): TranslationImpl {
 		return Translation.get(this.dictionary, translation);
 	}
 
@@ -471,12 +479,12 @@ export default class Magicology extends Mod {
 			.filter(creature => creature !== undefined && creature.type === this.creatureElementalGolemFigure) as Creature[];
 	}
 
-	public dematerialize(creature: Creature) {
+	public dematerialize(creature: Creature): void {
 		creature.queueSoundEffect(SfxType.CreatureNoise);
 		creature.tile.createParticles(creature.tile.description?.particles);
 
-		renderers.notifier.suspend();
-		creature.island.creatures.remove(creature);
-		renderers.notifier.resume();
+		renderers.notifier.suspend(() => {
+			creature.island.creatures.remove(creature);
+		});
 	}
 }
