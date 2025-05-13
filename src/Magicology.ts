@@ -147,6 +147,7 @@ export default class Magicology extends Mod {
 			skillType: Registry<Magicology>().get("skillMagicology"),
 			unlimitedAmmunition: true,
 			attackMessage: Registry<Magicology>().get("messageYouShootMagicalAttack"),
+			accuracy: 0.9,
 		},
 		use: [
 			Registry<Magicology>().get("actionFireball"),
@@ -155,8 +156,8 @@ export default class Magicology extends Mod {
 		recipe: {
 			components: [
 				RecipeComponent(ItemType.Lens, 1, 1, 1),
-				RecipeComponent(ItemType.Log, 1, 1, 1),
-				RecipeComponent(ItemType.WoodenPole, 4, 1, 1),
+				RecipeComponent(ItemType.Log, 1, 1, 0),
+				RecipeComponent(ItemType.WoodenPole, 1, 1, 1),
 				RecipeComponent(ItemType.String, 1, 1, 1),
 				RecipeComponent(ItemTypeGroup.Sharpened, 1, 0),
 			],
