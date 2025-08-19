@@ -339,7 +339,7 @@ export default class Magicology extends Mod {
 			.setResistance(DamageType.Blunt, 6),
 		damageType: DamageType.Blunt,
 		ai: AiType.Neutral,
-		moveType: MoveType.Land | MoveType.ShallowWater | MoveType.BreakDoodads | MoveType.BreakItems,
+		moveType: MoveType.Land | MoveType.ShallowWater | MoveType.DamageFacingDoodads | MoveType.DamageCrushableTileItems,
 		spawnTiles: TileGroup.DefaultWithWater,
 		makeNoise: true,
 		runeChance: [Deity.Good, 0],
