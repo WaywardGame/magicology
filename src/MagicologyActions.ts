@@ -167,11 +167,11 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 
 		const { tile } = action.use;
 
-		let creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, tile, false, false, undefined, true);
+		let creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, tile, { forceAberrant: false, bypassCreatureLimit: true });
 		if (!creature) {
 			// fan out from the tile and try spawning it
 			tile.findMatchingTile(searchTile => {
-				creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, searchTile, false, false, TileGroup.Ground, true);
+				creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, searchTile, { forceAberrant: false, spawnTiles: TileGroup.Ground, bypassCreatureLimit: true });
 				return creature !== undefined;
 			}, { maxTilesChecked: 27 });
 		}
