@@ -3,7 +3,7 @@ import { EventHandler } from "@wayward/game/event/EventManager";
 import { DoodadTypeGroup } from "@wayward/game/game/doodad/IDoodad";
 import type Human from "@wayward/game/game/entity/Human";
 import { DamageType, Defense, MoveType } from "@wayward/game/game/entity/IEntity";
-import { EquipType, SkillType } from "@wayward/game/game/entity/IHuman";
+import { EquipType } from "@wayward/game/game/entity/IHuman";
 import type { Stat } from "@wayward/game/game/entity/IStats";
 import { StatDisplayType } from "@wayward/game/game/entity/IStats";
 import { StatChangeCurrentTimerStrategy } from "@wayward/game/game/entity/StatFactory";
@@ -31,6 +31,7 @@ import { AiType } from "@wayward/game/game/entity/ai/AI";
 import type TranslationImpl from "@wayward/game/language/impl/TranslationImpl";
 import { MagicologyTranslation } from "./IMagicology";
 import { createAttackAction, createConjureAction, createDematerializeAction, createMaterializeAction } from "./MagicologyActions";
+import { SkillType } from "@wayward/game/game/entity/skill/ISkills";
 
 export default class Magicology extends Mod {
 
