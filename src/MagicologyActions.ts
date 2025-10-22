@@ -16,19 +16,26 @@ import type Item from "@wayward/game/game/item/Item";
 import type Tile from "@wayward/game/game/tile/Tile";
 import Translation from "@wayward/game/language/Translation";
 import Message from "@wayward/game/language/dictionary/Message";
-import Magicology from "./Magicology";
+import type MagicologyMod from "./Magicology";
+import Mod from "@wayward/game/mod/Mod";
+
+const Magicology = Mod.get<MagicologyMod>();
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createAttackAction = (requiredMana: number) => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setCanUse((action, item) => {
-		const mana = action.executor.stat.get(Magicology.INSTANCE.statMana);
+		if (!Magicology?.instance) {
+			return { usable: false };
+		}
+
+		const mana = action.executor.stat.get(Magicology.instance.statMana);
 		if (!mana || mana.value < requiredMana) {
 			return {
 				usable: false,
 				sources: [Source.Equipment, Source.Item],
 				errorDisplayLevel: ActionDisplayLevel.Always,
-				message: NotUsableMessage.simple(Magicology.INSTANCE.messageNotEnoughMana,
+				message: NotUsableMessage.simple(Magicology.instance.messageNotEnoughMana,
 					() => requiredMana),
 			};
 		}
@@ -36,7 +43,11 @@ export const createAttackAction = (requiredMana: number) => new Action(ActionArg
 		return Attack.canUse(action, item, AttackType.RangedWeapon);
 	})
 	.setHandler((action, item) => {
-		action.executor.stat.reduce(Magicology.INSTANCE.statMana, requiredMana);
+		if (!Magicology?.instance) {
+			return;
+		}
+
+		action.executor.stat.reduce(Magicology.instance.statMana, requiredMana);
 
 		void Attack.execute(action, item, AttackType.RangedWeapon);
 	});
@@ -46,20 +57,24 @@ export const createConjureAction = (requiredMana: number) => new Action(ActionAr
 	.setUsableBy(EntityType.Human)
 	.setPreExecutionHandler((action, item) => action.addItems(item))
 	.setCanUse((action, item) => {
+		if (!Magicology?.instance) {
+			return { usable: false };
+		}
+
 		const description = item.description;
-		if (!description?.use?.some(a => a === Magicology.INSTANCE.actionConjureFood || a === Magicology.INSTANCE.actionConjureWater)) {
+		if (!description?.use?.some(a => a === Magicology.instance.actionConjureFood || a === Magicology.instance.actionConjureWater)) {
 			return {
 				usable: false,
 			};
 		}
 
-		const mana = action.executor.stat.get(Magicology.INSTANCE.statMana);
+		const mana = action.executor.stat.get(Magicology.instance.statMana);
 		if (!mana || mana.value < requiredMana) {
 			return {
 				usable: false,
 				sources: [Source.Equipment, Source.Item],
 				errorDisplayLevel: ActionDisplayLevel.Always,
-				message: NotUsableMessage.simple(Magicology.INSTANCE.messageNotEnoughMana,
+				message: NotUsableMessage.simple(Magicology.instance.messageNotEnoughMana,
 					() => requiredMana),
 			};
 		}
@@ -69,26 +84,30 @@ export const createConjureAction = (requiredMana: number) => new Action(ActionAr
 		};
 	})
 	.setHandler((action, item) => {
-		action.executor.stat.reduce(Magicology.INSTANCE.statMana, requiredMana);
+		if (!Magicology?.instance) {
+			return;
+		}
+
+		action.executor.stat.reduce(Magicology.instance.statMana, requiredMana);
 
 		let conjuredItem: Item;
 
 		switch (item.type) {
 
-			case Magicology.INSTANCE.itemElementalBakingTray:
+			case Magicology.instance.itemElementalBakingTray:
 				conjuredItem = action.executor.createItemInInventory(ItemTypeGroup.CookedFood, item.quality);
 
 				action.setItemsUsed();
 				action.setSoundEffect(SfxType.Craft);
 				action.executor.messages.source(Source.Action, Source.Item)
-					.send(Magicology.INSTANCE.messageYouConjured, conjuredItem.getName());
+					.send(Magicology.instance.messageYouConjured, conjuredItem.getName());
 
 				break;
 
-			case Magicology.INSTANCE.itemElementalGlassBottle:
+			case Magicology.instance.itemElementalGlassBottle:
 				conjuredItem = item;
 
-				item.changeInto(Magicology.INSTANCE.itemElementalGlassBottleOfPurifiedFreshWater);
+				item.changeInto(Magicology.instance.itemElementalGlassBottleOfPurifiedFreshWater);
 
 				// note: not calling setItemsUsed now - the durability will decrease when using the fresh water
 				action.setSoundEffect(SfxType.Craft);
@@ -103,7 +122,7 @@ export const createConjureAction = (requiredMana: number) => new Action(ActionAr
 
 		action.executor.stat.reduce(Stat.Stamina, Math.max(Math.floor(conjuredItem.getTotalWeight(true)), 1));
 
-		action.addSkillGains(Magicology.INSTANCE.skillMagicology);
+		action.addSkillGains(Magicology.instance.skillMagicology);
 
 		action.setPassTurn();
 		action.setUpdateTablesAndWeight();
@@ -120,20 +139,24 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 	.setUsableBy(EntityType.Human)
 	.setPreExecutionHandler((action, item) => action.addItems(item))
 	.setCanUse<IMaterializeCanUse>((action, item) => {
+		if (!Magicology?.instance) {
+			return { usable: false };
+		}
+
 		const description = item.description;
-		if (!description?.use?.some(a => a === Magicology.INSTANCE.actionMaterialize)) {
+		if (!description?.use?.some(a => a === Magicology.instance.actionMaterialize)) {
 			return {
 				usable: false,
 			};
 		}
 
-		const mana = action.executor.stat.get(Magicology.INSTANCE.statMana);
+		const mana = action.executor.stat.get(Magicology.instance.statMana);
 		if (!mana || mana.value < requiredMana) {
 			return {
 				usable: false,
 				sources: [Source.Equipment, Source.Item],
 				errorDisplayLevel: ActionDisplayLevel.Always,
-				message: NotUsableMessage.simple(Magicology.INSTANCE.messageNotEnoughMana,
+				message: NotUsableMessage.simple(Magicology.instance.messageNotEnoughMana,
 					() => requiredMana),
 			};
 		}
@@ -163,23 +186,27 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 		};
 	})
 	.setHandler((action, item) => {
+		if (!Magicology?.instance) {
+			return;
+		}
+
 		action.setDelay(Delay.LongPause);
 
 		const { tile } = action.use;
 
-		let creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, tile, { forceAberrant: false, bypassCreatureLimit: true });
+		let creature = action.executor.island.creatures.spawn(Magicology.instance.creatureElementalGolemFigure, tile, { forceAberrant: false, bypassCreatureLimit: true });
 		if (!creature) {
 			// fan out from the tile and try spawning it
 			tile.findMatchingTile(searchTile => {
-				creature = action.executor.island.creatures.spawn(Magicology.INSTANCE.creatureElementalGolemFigure, searchTile, { forceAberrant: false, spawnTiles: TileGroup.Ground, bypassCreatureLimit: true });
+				creature = action.executor.island.creatures.spawn(Magicology.instance.creatureElementalGolemFigure, searchTile, { forceAberrant: false, spawnTiles: TileGroup.Ground, bypassCreatureLimit: true });
 				return creature !== undefined;
 			}, { maxTilesChecked: 27 });
 		}
 
 		if (creature) {
-			action.executor.stat.reduce(Magicology.INSTANCE.statMana, requiredMana);
+			action.executor.stat.reduce(Magicology.instance.statMana, requiredMana);
 
-			action.addSkillGains(Magicology.INSTANCE.skillMagicology);
+			action.addSkillGains(Magicology.instance.skillMagicology);
 
 			creature.tile.createParticles(creature.tile.description?.particles);
 
@@ -192,7 +219,7 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 			creature.skipNextUpdate();
 
 			action.executor.messages.source(Source.Action, Source.Allies, Source.Creature)
-				.send(Magicology.INSTANCE.messageYouHaveMaterialized, creature.getName());
+				.send(Magicology.instance.messageYouHaveMaterialized, creature.getName());
 
 			action.setItemsUsed();
 			action.setPassTurn();
@@ -201,7 +228,7 @@ export const createMaterializeAction = (requiredMana: number) => new Action(Acti
 		} else {
 			action.executor.messages.source(Source.Action, Source.Allies, Source.Creature)
 				.type(MessageType.Bad)
-				.send(Magicology.INSTANCE.messageNoRoomForMaterialization, item.getName());
+				.send(Magicology.instance.messageNoRoomForMaterialization, item.getName());
 		}
 	});
 
@@ -213,14 +240,18 @@ interface IDematerializeCanUse extends IActionUsable {
 export const createDematerializeAction = () => new Action(ActionArgument.ItemInventory)
 	.setUsableBy(EntityType.Human)
 	.setCanUse<IDematerializeCanUse>((action, item) => {
+		if (!Magicology?.instance) {
+			return { usable: false };
+		}
+
 		const description = item.description;
-		if (!description?.use?.some(a => a === Magicology.INSTANCE.actionDematerialize)) {
+		if (!description?.use?.some(a => a === Magicology.instance.actionDematerialize)) {
 			return {
 				usable: false,
 			};
 		}
 
-		const creatures = Magicology.INSTANCE.getElementalGolems(action.executor);
+		const creatures = Magicology.instance.getElementalGolems(action.executor);
 		if (creatures.length === 0) {
 			return {
 				usable: false,
@@ -233,16 +264,20 @@ export const createDematerializeAction = () => new Action(ActionArgument.ItemInv
 		};
 	})
 	.setHandler((action, item) => {
+		if (!Magicology?.instance) {
+			return;
+		}
+
 		action.setDelay(Delay.LongPause);
 
 		const { creatures } = action.use;
 
 		for (const creature of creatures) {
-			Magicology.INSTANCE.dematerialize(creature);
+			Magicology.instance.dematerialize(creature);
 		}
 
 		action.executor.messages.source(Source.Action, Source.Allies, Source.Creature)
-			.send(Magicology.INSTANCE.messageYouHaveDematerialized, Translation.formatList(creatures.map(creature => creature.getName())));
+			.send(Magicology.instance.messageYouHaveDematerialized, Translation.formatList(creatures.map(creature => creature.getName())));
 
 		action.setPassTurn();
 	});
