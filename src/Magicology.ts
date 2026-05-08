@@ -21,7 +21,7 @@ import Translation from "@wayward/game/language/Translation";
 import type Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
 import Register, { Registry } from "@wayward/game/mod/ModRegistry";
-import { ParticleType } from "@wayward/game/renderer/particle/IParticle";
+import { ParticlePhysics, ParticleType } from "@wayward/game/renderer/particle/IParticle";
 import particles from "@wayward/game/renderer/particle/Particles";
 import { shake, toggleClasses, when } from "@wayward/game/ui/screen/screens/game/static/stats/StatDisplayDescriptions";
 import Color from "@wayward/utilities/Color";
@@ -478,12 +478,12 @@ export default class Magicology extends Mod {
 
 		return Array.from(tamedCreatureIds)
 			.map(id => human.island.creatures.get(id))
-			.filter(creature => creature !== undefined && creature.type === this.creatureElementalGolemFigure) as Creature[];
+			.filter(creature => creature?.type === this.creatureElementalGolemFigure) as Creature[];
 	}
 
 	public dematerialize(creature: Creature): void {
 		creature.queueSoundEffect(SfxType.CreatureNoise);
-		creature.tile.createParticles(creature.tile.description?.particles);
+		creature.tile.createParticles(creature.tile.description?.particles, ParticlePhysics.Explode);
 
 		renderers.notifier.suspend(() => {
 			creature.island.creatures.remove(creature);
